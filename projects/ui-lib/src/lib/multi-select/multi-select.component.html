@@ -1,0 +1,37 @@
+<div (libClickOutside)="clickOutside()" class="ui-multi-select">
+
+        <div class="ui-multi-select_container" [class]="selectedItems.length>0 ? 'has-selection' : ''" (click)="toggleDropdown($event)">
+
+                <div class="ui-multi-select_selection" *ngIf="!options.singleSelection">
+                        <span>
+                                {{placeholder}}
+                        </span>
+                        <span class="ui-multi-select_selection_selected" [class]="selectedItems.length>0 ? 'has-selection' : ''">
+                                {{ selectedItems.length }}
+                        </span>
+                </div>
+                <div class="ui-multi-select_selection" *ngIf="options.singleSelection">
+                        <span >
+                                {{selectedItems.length>0 ? selectedItems[0].name : placeholder}}
+                        </span>
+                </div>
+                <div class="ui-multi-select_container_button" >
+                        <svg xmlns="http://www.w3.org/2000/svg" *ngIf="selectedItems.length==0" width="24" height="24" viewBox="0 0 24 24"><path d="M8.12 9.29L12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7c-.39-.39-.39-1.02 0-1.41.39-.38 1.03-.39 1.42 0z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg"  *ngIf="selectedItems.length>0" fill="#ffffff" width="24" height="24" viewBox="0 0 24 24"><path d="M8.12 9.29L12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7c-.39-.39-.39-1.02 0-1.41.39-.38 1.03-.39 1.42 0z"/></svg>
+                </div>
+        </div>
+
+        <div class="ui-multi-select_items" [hidden]="!open">
+                <div class="ui-multi-select_items_query">
+                        <input type="text" placeholder="Type somthing ..." [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)"/>
+                </div>
+                <cdk-virtual-scroll-viewport itemSize="36" class="ui-multi-select_items_container">
+                        <div *cdkVirtualFor="let item of items" class="ui-multi-select_items_item"
+                                (click)="onItemClick($event,item)">
+                                <input type="checkbox" [checked]="isSelected(item)">
+                                {{ item.name }}
+                        </div>
+                </cdk-virtual-scroll-viewport>
+
+        </div>
+</div>

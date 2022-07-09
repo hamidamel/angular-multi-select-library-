@@ -21,7 +21,19 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ui-lib": [
+        "dist/ui-lib",
+        "dist/ui-lib"
+      ],
+      "ui-mulit-select": [
+        "dist/ui-mulit-select"
+      ],
+      "ui-multi-select": [
+        "dist/ui-multi-select"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
