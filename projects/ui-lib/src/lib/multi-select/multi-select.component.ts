@@ -34,16 +34,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
     singleSelection: false,
     idField: "id",
     textField: "name",
-    allowSearchFilter: false,
-    limitSelection: -1,
-    clearSearchFilter: true,
-    searchPlaceholderText: "Search",
-    noDataAvailablePlaceholderText: "No data available",
-    noFilteredDataAvailablePlaceholderText: "No filtered data available",
-    closeDropDownOnSelection: false,
-    showSelectedItemsAtTop: false,
-    defaultOpen: false,
-    allowRemoteDataSearch: false
   };
   public get options(): IMultiSelectModel {
     return this._options;
@@ -115,7 +105,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
     } else {
       this.removeSelected(item);
     }
-    if (this._options.singleSelection && this._options.closeDropDownOnSelection) {
+    if (this._options.singleSelection) {
       this.closeDropdown();
     }
   }
