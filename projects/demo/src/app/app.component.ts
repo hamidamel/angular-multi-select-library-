@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ListItem } from 'projects/ui-lib/src/public-api';
+import { IMultiSelectModel, ListItem } from 'projects/ui-lib/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,10 @@ export class AppComponent implements OnInit{
   selectedItem: Array<ListItem> = [];
   items: Array<ListItem> =[];
   filteredItems: Array<ListItem> =[];
-  
+
+  fieldOption: IMultiSelectModel = {singleSelection: true, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
+  multiFieldOption: IMultiSelectModel = {singleSelection: true, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
+
   constructor(private http: HttpClient){
   }
 
@@ -23,8 +26,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     this.http.get<ListItem[]>('https://api.coinpaprika.com/v1/coins').subscribe(items=>{
       this.items =this.filteredItems = items;
+    },(e)=>{
+      console.log(e);
     });
   }
 

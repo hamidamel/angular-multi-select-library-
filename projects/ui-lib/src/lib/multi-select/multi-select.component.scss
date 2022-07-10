@@ -69,6 +69,15 @@
         &_container{
             height: 100%;
         }
+        &_empty{
+            height: 36px;
+            width: 100%;
+            border-bottom: rgba(19,95,167,0.1);
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            color: #ccc;
+        }
         &_item{
             height: 36px;
             width: 100%;

@@ -2,6 +2,9 @@ export interface IMultiSelectModel {
     singleSelection?: boolean;
     idField: string;
     textField: string;
+    emptyListMessage?: string;
+    loadingMessage?: string;
+    loading?: boolean;
   }
 
   export class ListItem {

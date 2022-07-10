@@ -34,6 +34,9 @@ export class MultiSelectComponent implements ControlValueAccessor {
     singleSelection: false,
     idField: "id",
     textField: "name",
+    emptyListMessage: 'No Data',
+    loadingMessage: 'Loading Data',
+    loading: false,
   };
   public get options(): IMultiSelectModel {
     return this._options;
