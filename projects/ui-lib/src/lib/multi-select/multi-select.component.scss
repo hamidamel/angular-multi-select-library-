@@ -11,6 +11,7 @@
         padding-left: 16px;
         padding-right: 8px;
         justify-content: space-between;
+        cursor: pointer;
         &.has-selection{
             background-color: rgba(19,95,167,1);
             color: white;
@@ -54,9 +55,10 @@
         border-radius: 10px;
         box-shadow: 0px 0px 15px -10px;
         overflow: hidden;
-        padding: 16px;
         &_query{
             height: 36px;
+            padding-left: 16px;
+            padding-right: 16px;
             border-bottom: 1px solid rgba(19,95,167,1);
             input{
                 border: none;
@@ -69,9 +71,15 @@
         }
         &_item{
             height: 36px;
-            line-height: 36px;
-            width: 300px;
+            width: 100%;
             border-bottom: rgba(19,95,167,0.1);
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            &:hover{
+                background-color: rgba(19,95,167,0.1);
+            }
            }
        
     }

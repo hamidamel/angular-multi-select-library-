@@ -22,13 +22,13 @@
         </div>
 
         <div class="ui-multi-select_items" [hidden]="!open">
-                <div class="ui-multi-select_items_query">
+                <div class="ui-multi-select_items_query" >
                         <input type="text" placeholder="Type somthing ..." [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)"/>
                 </div>
                 <cdk-virtual-scroll-viewport itemSize="36" class="ui-multi-select_items_container">
                         <div *cdkVirtualFor="let item of items" class="ui-multi-select_items_item"
                                 (click)="onItemClick($event,item)">
-                                <input type="checkbox" [checked]="isSelected(item)">
+                                <input *ngIf="!options.singleSelection" type="checkbox" [checked]="isSelected(item)">
                                 {{ item.name }}
                         </div>
                 </cdk-virtual-scroll-viewport>
