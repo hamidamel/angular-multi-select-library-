@@ -1,7 +1,7 @@
 export interface IMultiSelectModel {
     singleSelection?: boolean;
-    idField?: string;
-    textField?: string;
+    idField: string;
+    textField: string;
   }
 
   export class ListItem {

@@ -1,19 +1,22 @@
 <div class="test-container">
     <div class="test-column">
         <h1>Single Select</h1>
-        <lib-multi-select [placeholder]="'Select Coins'" [options]="{singleSelection: true}" [items]="filteredItems"
-            [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onFilterChange)="filterItems($event)">
+        <lib-multi-select [placeholder]="'Select Coins'" [options]="{singleSelection: true, idField: 'id', textField:'name'}" [items]="filteredItems"
+            [(ngModel)]="selectedItem" (onSelect)="onItemSelect($event)" (onFilterChange)="filterItems($event)">
         </lib-multi-select>
     </div>
 
     <div class="test-column">
         <h1>Multi Select</h1>
-        <lib-multi-select [placeholder]="'Select Coins'" [items]="filteredItems" [(ngModel)]="selectedItem"
+        <lib-multi-select [placeholder]="'Select Coins'" [items]="filteredItems" [(ngModel)]="selectedItems"
             (onSelect)="onItemSelect($event)" (onFilterChange)="filterItems($event)"></lib-multi-select>
     </div>
 
     <div class="test-column">
         <div *ngFor="let item of selectedItems">
+            {{item.name}}
+        </div>
+        <div *ngFor="let item of selectedItem">
             {{item.name}}
         </div>
     </div>

@@ -20,8 +20,8 @@ import { IMultiSelectModel, ListItem } from '../../public-api';
 export class MultiSelectComponent implements ControlValueAccessor {
 
   constructor(private cdr: ChangeDetectorRef) { }
-  public selectedItems: Array<ListItem> = [];
-  private _items: Array<ListItem> = [];
+  public selectedItems: Array<any> = [];
+  private _items: Array<any> = [];
   public open: boolean = false;
   @Input()
   public placeholder: string = '';
@@ -47,14 +47,14 @@ export class MultiSelectComponent implements ControlValueAccessor {
 
   
   @Input()
-  public set items(value: Array<ListItem>) {
+  public set items(value: Array<any>) {
     if (!value) {
       this._items = [];
     } else {
       this._items = value.map((item) =>
         new ListItem({
-          id: item.id,
-          text: item.name,
+          id: item[this.options.idField],
+          text: item[this.options.textField],
         })
       );
     }
@@ -76,10 +76,10 @@ export class MultiSelectComponent implements ControlValueAccessor {
     this.closeDropdown();
   }
 
-  isSelected(clickedItem: ListItem) {
+  isSelected(clickedItem: any) {
     let found = false;
     this.selectedItems.forEach(item => {
-      if (clickedItem.id === item.id) {
+      if (clickedItem[this.options.idField] === item[this.options.idField]) {
         found = true;
       }
     });
@@ -121,9 +121,9 @@ export class MultiSelectComponent implements ControlValueAccessor {
     this.onSelect.emit(this.emittedValue([item]));
   }
 
-  removeSelected(itemSel: ListItem) {
+  removeSelected(itemSel: any) {
     this.selectedItems.forEach(item => {
-      if (itemSel.id === item.id) {
+      if (itemSel[this.options.idField] === item[this.options.idField]) {
         this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
       }
     });
@@ -148,8 +148,8 @@ export class MultiSelectComponent implements ControlValueAccessor {
         typeof item === "string" || typeof item === "number"
           ? new ListItem(item)
           : new ListItem({
-            id: item.id,
-            text: item.text,
+            id: item[this.options.idField],
+            text: item[this.options.textField],
           })
       );
       this.selectedItems = _data;
