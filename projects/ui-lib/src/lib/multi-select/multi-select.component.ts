@@ -129,12 +129,16 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   addSelected(item: ListItem) {
+
     if (this.options.singleSelection) {
       this.selectedItems = [];
       this.selectedItems.push(item);
     } else {
       this.selectedItems.push(item);
     }
+
+    this.items.sort((a,b)=>{ return a.id === item.id ? -1 : b.id === item.id ? 1 : 0; });
+
     this.onChange(this.emittedValue(this.selectedItems));
   }
 
