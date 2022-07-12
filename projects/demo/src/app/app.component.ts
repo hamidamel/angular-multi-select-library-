@@ -9,6 +9,12 @@ import { tap } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  sortFunction = (a:any,b:any)=> {
+    if(a.name < b.name) { return -1; }
+    if(a.name > b.name) { return 1; }
+    return 0;
+  };
+
   title = 'demo';
   selectedItems: Array<ListItem> = [];
   selectedItem: Array<ListItem> = [];
@@ -16,7 +22,7 @@ export class AppComponent implements OnInit{
   filteredItems: Array<ListItem> =[];
 
   fieldOption: IMultiSelectModel = {singleSelection: true, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
-  multiFieldOption: IMultiSelectModel = {singleSelection: false, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
+  multiFieldOption: IMultiSelectModel = {singleSelection: false, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false,defaultSortFunction: this.sortFunction};
 
   constructor(private http: HttpClient){
   }
@@ -26,13 +32,10 @@ export class AppComponent implements OnInit{
     console.log('selectedItem', this.selectedItems);
   }
 
+
   ngOnInit(): void {
 
-    this.http.get<ListItem[]>('https://api.coinpaprika.com/v1/coins').pipe(tap(result=> result.sort((a,b)=> {
-      if(a.name < b.name) { return -1; }
-      if(a.name > b.name) { return 1; }
-      return 0;
-    }))).subscribe(items=>{
+    this.http.get<ListItem[]>('https://api.coinpaprika.com/v1/coins').pipe(tap(result=> result.sort(this.sortFunction))).subscribe(items=>{
       this.items =this.filteredItems = items.slice(0,200);
     },(e)=>{
       console.log(e);

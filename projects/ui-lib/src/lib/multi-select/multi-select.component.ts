@@ -45,6 +45,11 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
     emptyListMessage: 'No Data',
     loadingMessage: 'Loading Data',
     loading: false,
+    defaultSortFunction: (a:any,b:any)=> {
+      if(a < b) { return -1; }
+      if(a > b) { return 1; }
+      return 0;
+    }
   };
   public get options(): IMultiSelectModel {
     return this._options;
@@ -137,6 +142,7 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
       this.selectedItems.push(item);
     }
 
+    // for move item to the top of the list
     this.items.sort((a,b)=>{ return a.id === item.id ? -1 : b.id === item.id ? 1 : 0; });
 
     this.onChange(this.emittedValue(this.selectedItems));
@@ -148,6 +154,9 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   removeSelected(itemSel: any) {
+    if (this.options.defaultSortFunction){
+      this.items.sort(this.options.defaultSortFunction);
+    }
     this.selectedItems.forEach(item => {
       if (itemSel[this.options.idField] === item[this.options.idField]) {
         this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
