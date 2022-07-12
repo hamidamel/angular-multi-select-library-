@@ -149,8 +149,8 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
   }
 
   
-  toggleSelectAll(e:any) {
-    this.selectAll$.next(e as boolean);
+  toggleSelectAll() {
+    this.selectAll$.next(!this.selectAll$.value);
   }
 
   removeSelected(itemSel: any) {

@@ -26,8 +26,8 @@
                         <input type="text" placeholder="Type somthing ..." [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)"/>
                 </div>
                 <div class="ui-multi-select_items_container" >
-                        <div class="ui-multi-select_items_item" *ngIf="!options.singleSelection">
-                                <input type="checkbox" [ngModel]="selectAll$ | async" (ngModelChange)="toggleSelectAll($event)">
+                        <div class="ui-multi-select_items_item" *ngIf="!options.singleSelection" (click)="toggleSelectAll()">
+                                <input type="checkbox" [ngModel]="selectAll$ | async">
                                 All
                         </div>
 
