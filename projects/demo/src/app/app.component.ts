@@ -15,7 +15,7 @@ export class AppComponent implements OnInit{
   filteredItems: Array<ListItem> =[];
 
   fieldOption: IMultiSelectModel = {singleSelection: true, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
-  multiFieldOption: IMultiSelectModel = {singleSelection: true, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
+  multiFieldOption: IMultiSelectModel = {singleSelection: false, idField: 'id', textField:'name', emptyListMessage: 'Not Data', loading: false};
 
   constructor(private http: HttpClient){
   }

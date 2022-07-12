@@ -27,11 +27,10 @@
                 </div>
                 <cdk-virtual-scroll-viewport itemSize="36" class="ui-multi-select_items_container" >
                         
-                        <div *ngIf="items.length==0 && options.loading==false" class="ui-multi-select_items_empty">{{options.emptyListMessage}}</div>
-
+                        <div *ngIf="items.length==0" class="ui-multi-select_items_empty">{{options.emptyListMessage}}</div>
                         <div *cdkVirtualFor="let item of items" class="ui-multi-select_items_item"
                                 (click)="onItemClick($event,item)">
-                                <input *ngIf="!options.singleSelection" type="checkbox" [checked]="isSelected(item)">
+                                <input type="checkbox" [checked]="isSelected(item)">
                                 {{ item.name }}
                         </div>
                 </cdk-virtual-scroll-viewport>

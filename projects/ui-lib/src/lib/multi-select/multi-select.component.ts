@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { IMultiSelectModel, ListItem } from '../../public-api';
 
 
@@ -17,12 +18,11 @@ import { IMultiSelectModel, ListItem } from '../../public-api';
   ]
 
 })
-export class MultiSelectComponent implements ControlValueAccessor {
-
-  constructor(private cdr: ChangeDetectorRef) { }
+export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
   public selectedItems: Array<any> = [];
   private _items: Array<any> = [];
   public open: boolean = false;
+  public selectAll$ = new BehaviorSubject(false);
   @Input()
   public placeholder: string = '';
 
@@ -41,14 +41,11 @@ export class MultiSelectComponent implements ControlValueAccessor {
   public get options(): IMultiSelectModel {
     return this._options;
   }
-
   @Input()
   public set options(value: IMultiSelectModel) {
     //its like overridding default options
     this._options = {...this._options, ...value };
   }
-
-  
   @Input()
   public set items(value: Array<any>) {
     if (!value) {
@@ -67,14 +64,26 @@ export class MultiSelectComponent implements ControlValueAccessor {
   onFilterChange: EventEmitter<ListItem> = new EventEmitter<any>();
   @Output("onDropDownClose")
   onDropDownClose: EventEmitter<ListItem> = new EventEmitter<any>();
-  @Output("onSelect")
-  onSelect: EventEmitter<ListItem> = new EventEmitter<any>();
-  @Output("onDeSelect")
-  onDeSelect: EventEmitter<ListItem> = new EventEmitter<any>();
+
 
   private onTouched: () => void = ()=>{};
   private onChange: (_: any)=> void = ()=>{};
-  
+
+  constructor(private cdr: ChangeDetectorRef) {
+    this.selectAll$.subscribe(value=>{
+      if (value) {
+        this.selectedItems = this.items.slice();
+      } else {
+        this.selectedItems = [];
+      }
+      this.onChange(this.emittedValue(this.selectedItems));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.selectAll$.unsubscribe();
+  }
+
   clickOutside() {
     this.closeDropdown();
   }
@@ -108,20 +117,22 @@ export class MultiSelectComponent implements ControlValueAccessor {
     } else {
       this.removeSelected(item);
     }
-    if (this._options.singleSelection) {
-      this.closeDropdown();
-    }
+   
   }
 
   addSelected(item: ListItem) {
-    if (this._options.singleSelection) {
+    if (this.options.singleSelection) {
       this.selectedItems = [];
       this.selectedItems.push(item);
     } else {
       this.selectedItems.push(item);
     }
     this.onChange(this.emittedValue(this.selectedItems));
-    this.onSelect.emit(this.emittedValue([item]));
+  }
+
+  
+  toggleSelectAll(e:any) {
+    this.selectAll$.next(e as boolean);
   }
 
   removeSelected(itemSel: any) {
@@ -131,7 +142,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
       }
     });
     this.onChange(this.emittedValue(this.selectedItems));
-    this.onDeSelect.emit(this.emittedValue([itemSel]));
   }
 
   emittedValue(val: Array<ListItem>): any {
@@ -145,7 +155,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    console.log(this._items);
     if (obj !== undefined && obj !== null && obj.length > 0) {
       const _data = obj.map((item: any) =>
         typeof item === "string" || typeof item === "number"
