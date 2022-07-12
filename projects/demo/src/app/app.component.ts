@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IMultiSelectModel, ListItem } from 'projects/ui-lib/src/public-api';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -27,8 +28,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.http.get<ListItem[]>('https://api.coinpaprika.com/v1/coins').subscribe(items=>{
-      this.items =this.filteredItems = items;
+    this.http.get<ListItem[]>('https://api.coinpaprika.com/v1/coins').pipe(tap(result=> result.sort((a,b)=> {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
+    }))).subscribe(items=>{
+      this.items =this.filteredItems = items.slice(0,200);
     },(e)=>{
       console.log(e);
     });

@@ -25,15 +25,19 @@
                 <div class="ui-multi-select_items_query" >
                         <input type="text" placeholder="Type somthing ..." [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)"/>
                 </div>
-                <cdk-virtual-scroll-viewport itemSize="36" class="ui-multi-select_items_container" >
-                        
-                        <div *ngIf="items.length==0" class="ui-multi-select_items_empty">{{options.emptyListMessage}}</div>
-                        <div *cdkVirtualFor="let item of items" class="ui-multi-select_items_item"
+                <div class="ui-multi-select_items_container" >
+                        <div class="ui-multi-select_items_item" *ngIf="!options.singleSelection">
+                                <input type="checkbox" [ngModel]="selectAll$ | async" (ngModelChange)="toggleSelectAll($event)">
+                                All
+                        </div>
+
+                        <div *ngFor="let item of items" class="ui-multi-select_items_item"
                                 (click)="onItemClick($event,item)">
                                 <input type="checkbox" [checked]="isSelected(item)">
                                 {{ item.name }}
                         </div>
-                </cdk-virtual-scroll-viewport>
+                        <div *ngIf="items.length==0" class="ui-multi-select_items_empty">{{options.emptyListMessage}}</div>
+                </div>
 
         </div>
 </div>
