@@ -21,8 +21,16 @@ import { IMultiSelectModel, ListItem } from '../../public-api';
 export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
   public selectedItems: Array<any> = [];
   private _items: Array<any> = [];
+  private _filteredItems: Array<any> = [];
+  public get filteredItems(): Array<any> {
+    return this._filteredItems;
+  }
+  public set filteredItems(value: Array<any>) {
+    this._filteredItems = value;
+  }
   public open: boolean = false;
   public selectAll$ = new BehaviorSubject(false);
+
   @Input()
   public placeholder: string = '';
 
@@ -100,7 +108,7 @@ export class MultiSelectComponent implements ControlValueAccessor, OnDestroy {
 
   toggleDropdown($event: any) {
     $event.preventDefault();
-    this.open = !this.open;
+    this.open = true;
   }
 
   closeDropdown() {
